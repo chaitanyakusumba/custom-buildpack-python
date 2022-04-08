@@ -5,7 +5,7 @@ description = "Altoros example CNB builder"
 [[buildpacks]]
 id = "custom/custom-buildpack-python"
 version = "0.0.1"
-# uri = "docker://altoros/buildpack:gradle"
+uri = "docker://custom/buildpack:python"
 
 # Buildpack order detection
 

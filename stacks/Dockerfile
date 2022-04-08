@@ -107,7 +107,7 @@ FROM base as run
 WORKDIR /service
 ADD . /service
 WORKDIR /service
-RUN pip3 install -r requirements.txt
+# RUN pip3 install -r requirements.txt
 ENV LD_LIBRARY_PATH=/usr/local/cuda-11.2/targets/x86_64-linux/lib/:$LD_LIBRARY_PATH
 EXPOSE 8080
 CMD ["python", "main.py"]
