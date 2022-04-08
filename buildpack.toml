@@ -1,5 +1,7 @@
+api = "0.2"
 [buildpack]
-id = "chaitanyakusumba/custom-buildpack-python"
+id = "custom/custom-buildpack-python"
+homepage = "https://github.com/chaitanyakusumba/custom-buildpack-python"
 version = "0.0.1"
 name = "Python"
 
