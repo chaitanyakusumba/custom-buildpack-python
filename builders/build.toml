@@ -1,0 +1,21 @@
+description = "Altoros example CNB builder"
+
+# Included buildpacks
+
+[[buildpacks]]
+id = "chaitanyakusumba/custom-buildpack-python"
+version = "0.0.1"
+# uri = "docker://altoros/buildpack:gradle"
+
+# Buildpack order detection
+
+[[order]]
+[[order.group]]
+id = "chaitanyakusumba/custom-buildpack-python"
+version = "0.0.1"
+
+# Stack definition
+[stack]
+id = "com.digitaldots.stacks.python"
+build-image = "chaitanyakusumba/build-image:python"
+run-image = "chaitanyakusumba/run-image:python"

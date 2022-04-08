@@ -1,0 +1,17 @@
+[buildpack]
+id = "chaitanyakusumba/custom-buildpack-python"
+version = "0.0.1"
+name = "Python"
+
+  [publish.Ignore]
+  files = [
+    "test/",
+    ".gitignore",
+    ".dockerignore",
+    ".github/",
+    "Dockerfile",
+    "Pipfile",
+    "Pipfile.lock"
+  ]
+[[stacks]]
+id = "com.digitaldots.stacks.python"
