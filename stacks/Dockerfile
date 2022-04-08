@@ -96,14 +96,14 @@ RUN apt-get update && \
 LABEL io.buildpacks.stack.mixins="[\"build:wget\", \"build:jq\", \"build:yj\"]"
 
 # Set user and group (as declared in base image)
-# USER ${CNB_USER_ID}:${CNB_GROUP_ID}
+USER ${CNB_USER_ID}:${CNB_GROUP_ID}
 
 ## ---Run image---
 
 FROM base as run
 
 # Set user and group (as declared in base image)
-# USER ${CNB_USER_ID}:${CNB_GROUP_ID}
+USER ${CNB_USER_ID}:${CNB_GROUP_ID}
 WORKDIR /service
 ADD . /service
 WORKDIR /service
