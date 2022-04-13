@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # The Heroku Python Buildpack. This script accepts parameters for a build
 # directory, a cache directory, and a directory for app environment variables.

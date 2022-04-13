@@ -10,7 +10,6 @@
 
 # detect
 
-#!/usr/bin/env bash
-set -eo pipefail
+#!/bin/bash
 echo "exiting with pythonapp"
 exit 1

@@ -89,7 +89,7 @@ LABEL io.buildpacks.stack.id="com.digitaldots.stacks.python"
 
 # Install packages that we want to make available at build time
 RUN apt-get update && \
-  apt-get install -y git wget jq && \
+  apt-get install -y vim git wget jq && \
   rm -rf /var/lib/apt/lists/* && \
   wget https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux -O /usr/local/bin/yj && \
   chmod +x /usr/local/bin/yj
