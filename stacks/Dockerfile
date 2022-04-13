@@ -13,6 +13,18 @@ ARG LIB_DIR_PREFIX=x86_64
 ARG LIBNVINFER=7.2.2-1
 ARG LIBNVINFER_MAJOR_VERSION=7
 
+ENV CNB_STACK_ID="com.digitaldots.stacks.python"
+LABEL io.buildpacks.stack.id="com.digitaldots.stacks.python"
+
+# Create CNB user and group
+ENV CNB_USER_ID=1000
+ENV CNB_GROUP_ID=1000
+RUN groupadd cnb --gid ${CNB_GROUP_ID} && \
+  useradd --uid ${CNB_USER_ID} --gid ${CNB_GROUP_ID} -m -s /bin/bash cnb
+RUN apt-get update && \
+  apt-get install -y xz-utils ca-certificates && \
+  rm -rf /var/lib/apt/lists/*
+
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
 # Pick up some TF dependencies
@@ -68,22 +80,12 @@ RUN ln -s $(which python3) /usr/local/bin/python
 ARG TF_PACKAGE=tensorflow
 ARG TF_PACKAGE_VERSION=
 
+#=========================================#####################
+## ---Build image--
+# Install packages that we want to make available at build time
+FROM base as build
 ENV CNB_STACK_ID="com.digitaldots.stacks.python"
 LABEL io.buildpacks.stack.id="com.digitaldots.stacks.python"
-
-# Create CNB user and group
-ENV CNB_USER_ID=1000
-ENV CNB_GROUP_ID=1000
-RUN groupadd cnb --gid ${CNB_GROUP_ID} && \
-  useradd --uid ${CNB_USER_ID} --gid ${CNB_GROUP_ID} -m -s /bin/bash cnb
-RUN apt-get update && \
-  apt-get install -y xz-utils ca-certificates && \
-  rm -rf /var/lib/apt/lists/*
-
-#=========================================#####################
-## ---Build image---
-
-FROM base as build
 
 # Install packages that we want to make available at build time
 RUN apt-get update && \
@@ -91,9 +93,7 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/* && \
   wget https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux -O /usr/local/bin/yj && \
   chmod +x /usr/local/bin/yj
-
 # Declare dependencies this image provides
-LABEL io.buildpacks.stack.mixins="[\"build:wget\", \"build:jq\", \"build:yj\"]"
 
 # Set user and group (as declared in base image)
 USER ${CNB_USER_ID}:${CNB_GROUP_ID}
@@ -101,13 +101,8 @@ USER ${CNB_USER_ID}:${CNB_GROUP_ID}
 ## ---Run image---
 
 FROM base as run
-
+ENV CNB_STACK_ID="com.digitaldots.stacks.python"
+LABEL io.buildpacks.stack.id="com.digitaldots.stacks.python"
+LABEL io.buildpacks.stack.mixins="[\"run:git\"]"
 # Set user and group (as declared in base image)
 USER ${CNB_USER_ID}:${CNB_GROUP_ID}
-WORKDIR /service
-ADD . /service
-WORKDIR /service
-# RUN pip3 install -r requirements.txt
-ENV LD_LIBRARY_PATH=/usr/local/cuda-11.2/targets/x86_64-linux/lib/:$LD_LIBRARY_PATH
-EXPOSE 8080
-CMD ["python", "main.py"]
